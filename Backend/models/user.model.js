@@ -16,7 +16,7 @@ export const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, // Prevent password from being returned in queries
+      select: false, 
     },
     answer: String,
     role: {
@@ -49,8 +49,8 @@ userSchema.methods.comparPassword = async function (password) {
 };
 
 // Generate JWT token
-userSchema.methods.generateToken = function () {
-  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+userSchema.methods.generateJWTToken = function () {
+  return jwt.sign({ _id: this._id, role: this.role }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };

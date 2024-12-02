@@ -2,7 +2,6 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  
   "type": "module",
   "scripts": {
     "start": "nodemon index.js"
@@ -12,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "backend": "file:",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.7",

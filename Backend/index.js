@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDb } from "./db/db.js";
-import userRouter from './routes/user.route.js'
+import userRouter from "./routes/user.route.js";
+import cateogryRouter from "./routes/category.route.js";
 
 dotenv.config();
 const app = express();
@@ -27,7 +28,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // created api's
-app.use('/api/v1/user',userRouter)
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/category", cateogryRouter);
 // Database connection
 connectDb();
 
