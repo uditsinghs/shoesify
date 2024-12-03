@@ -5,7 +5,8 @@ import cookieParser from "cookie-parser";
 import { connectDb } from "./db/db.js";
 import userRouter from "./routes/user.route.js";
 import cateogryRouter from "./routes/category.route.js";
-
+import productRouter from "./routes/product.route.js";
+import cartRouter from "./routes/cart.route.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +31,8 @@ app.use(cors(corsOptions));
 // created api's
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/category", cateogryRouter);
+app.use("/api/v1/product", productRouter);
+app.use("/api/v1/cart", cartRouter);
 // Database connection
 connectDb();
 

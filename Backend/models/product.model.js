@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -8,7 +8,6 @@ const productSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
     },
@@ -20,28 +19,34 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      min: 0, // Price cannot be negative
+      min: 0,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category", // References the Categories collection
+      ref: "Category",
       required: true,
     },
     quantity: {
       type: Number,
       required: true,
-      min: 0, // Quantity cannot be negative
+      min: 0,
     },
     image: {
-      type: String,
-      required: true, // Ensure every product has an image
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
     },
     shipping: {
       type: Boolean,
-      default: false, // Default is no shipping required
+      default: false,
     },
   },
-  { timestamps: true } // Adds createdAt and updatedAt automatically
+  { timestamps: true }
 );
 
 productSchema.pre("save", function (next) {
@@ -55,5 +60,3 @@ productSchema.pre("save", function (next) {
 });
 
 export const Product = mongoose.model("Product", productSchema);
-
-

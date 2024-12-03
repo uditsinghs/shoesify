@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const userSchema = new mongoose.Schema(
+ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -16,7 +16,7 @@ export const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, 
+      select: false,
     },
     answer: String,
     role: {
@@ -31,6 +31,12 @@ export const userSchema = new mongoose.Schema(
       zip: String,
       country: String,
     },
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true }
 );
