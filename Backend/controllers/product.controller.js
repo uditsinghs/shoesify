@@ -214,6 +214,7 @@ export const updateProduct = async (req, res) => {
 };
 
 
+
 // wiselist product
 export const addWishlist = async (req, res) => {
   try {

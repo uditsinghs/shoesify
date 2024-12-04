@@ -1,5 +1,6 @@
 import { Product } from "../models/product.model.js";
 import { Cart } from "../models/cart.model.js";
+import { calculateTotalPrice } from "../utils/totalCartPrice.js";
 export const addToCart = async (req, res) => {
   try {
     const { userId, pid, quantity } = req.body;
@@ -176,8 +177,6 @@ export const updateCart = async (req, res) => {
       (item) => item.product.toString() === pid
     );
 
-    
-    
     if (productIndex === -1) {
       return res.status(404).json({
         message: "Product not found in cart.",
@@ -199,6 +198,36 @@ export const updateCart = async (req, res) => {
       message: "Cart updated successfully.",
       success: true,
       cart,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const getCart = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const cart = await Cart.findOne({ userId }).populate("products.product");
+
+    if (!cart || cart.products.length === 0) {
+      return res.status(200).json({
+        message: "Cart is empty.",
+        success: true,
+        cart: [],
+      });
+    }
+
+    const totalPrice = calculateTotalPrice(cart.products);
+
+    return res.status(200).json({
+      success: true,
+      cart,
+      totalPrice,
     });
   } catch (error) {
     console.log(error);
