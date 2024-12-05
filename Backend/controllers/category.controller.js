@@ -5,6 +5,7 @@ export const createCategory = async (req, res) => {
   try {
     const { categoryname } = req.body;
 
+
     if (!categoryname) {
       return res.status(400).json({
         message: "Category name is required.",
@@ -88,6 +89,8 @@ export const updateCategory = async (req, res) => {
   try {
     const { cid } = req.params;
     const { categoryname } = req.body;
+    console.log(categoryname);
+    
 
     if (!categoryname) {
       return res.status(400).json({

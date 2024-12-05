@@ -84,6 +84,29 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "admin/all-user",
+        method: "GET",
+      }),
+      providesTags: ["users"],
+    }),
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `admin/user/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["users"],
+    }),
+    changeRole: builder.mutation({
+      query: ({ userId, role }) => ({
+        url: `admin/role/${userId}`,
+        method: "POST",
+        body: { role },
+      }),
+      invalidatesTags: ["users","user"],
+    
+    }),
   }),
 });
 
@@ -94,5 +117,8 @@ export const {
   useLogoutUserMutation,
   useAddAddressMutation,
   useDeleteAddressMutation,
-  useUpdateAddressMutation
+  useUpdateAddressMutation,
+  useDeleteUserMutation,
+  useChangeRoleMutation,
+  useGetAllUsersQuery,
 } = userApi;

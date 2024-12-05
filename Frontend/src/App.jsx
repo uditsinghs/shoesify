@@ -10,9 +10,10 @@ import ManageProduct from "./pages/admin/ManageProduct";
 import ManageOrder from "./pages/admin/ManageOrder";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
-import Wisehlist from "./pages/Wisehlist";
-import UserOrders from "./pages/user/userOrders";
+import Wishlist from "./pages/Wishlist";
+import UserOrders from "./pages/user/UserOrders";
 import ManageAddress from "./pages/ManageAddress";
+import ManageCategory from "./pages/admin/ManageCategory";
 
 const App = () => {
   const appRouter = createBrowserRouter([
@@ -29,54 +30,25 @@ const App = () => {
             </>
           ),
         },
+        { path: "cart", element: <Cart /> },
+        { path: "profile", element: <Profile /> },
+        { path: "profile/manage-address", element: <ManageAddress /> },
+        { path: "wishlist", element: <Wishlist /> },
+        { path: "orders", element: <UserOrders /> },
         {
-          path: "cart",
-          element: <Cart />,
-        },
-        {
-          path: "profile/address",
-          element: <ManageAddress />,
-        },
-        {
-          path: "profile",
-          element: <Profile />,
-        },
-        {
-          path: "wishlist",
-          element: <Wisehlist />,
-        },
-        {
-          path: "orders",
-          element: <UserOrders/>,
-        },
-        {
-          path: "/admin",
+          path: "admin",
           element: <Dashboard />,
           children: [
-            {
-              path: "user",
-              element: <ManageUser />,
-            },
-            {
-              path: "product",
-              element: <ManageProduct />,
-            },
-            {
-              path: "order",
-              element: <ManageOrder />,
-            },
+            { path: "user", element: <ManageUser /> },
+            { path: "product", element: <ManageProduct /> },
+            { path: "order", element: <ManageOrder /> },
+            { path: "category", element: <ManageCategory /> },
           ],
         },
       ],
     },
-    {
-      path: "/signup",
-      element: <Signup />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
+    { path: "/signup", element: <Signup /> },
+    { path: "/login", element: <Login /> },
   ]);
 
   return (
