@@ -83,7 +83,7 @@ const ManageAddress = () => {
       toast.success(data?.message || "Address added successfully");
     }
     if (isError && error) {
-      toast.error(error?.response?.data?.message || "Error in added address");
+      toast.error(error?.data?.message || "Error in added address");
     }
   }, [isError, error, isSuccess, data]);
   useEffect(() => {
@@ -94,9 +94,7 @@ const ManageAddress = () => {
       navigate("/profile");
     }
     if (updateIserror && updateError) {
-      toast.error(
-        updateError?.response?.data?.message || "Error in updating address"
-      );
+      toast.error(updateerror?.data?.message || "Error in updating address");
     }
   }, [updateAddressData, updateError, updateIsSuccess, updateIserror]);
   useEffect(() => {
@@ -105,9 +103,7 @@ const ManageAddress = () => {
       navigate("/profile");
     }
     if (deleteIsError && deleteError) {
-      toast.error(
-        deleteError?.response?.data?.message || "Error in deleting address"
-      );
+      toast.error(deleteerror?.data?.message || "Error in deleting address");
     }
   }, [deleteData, deleteError, deleteIsSucces, deleteIsSucces]);
   return (

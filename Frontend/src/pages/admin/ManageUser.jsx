@@ -56,7 +56,7 @@ const ManageUser = () => {
       toast.success(deleteUserData.message || "User deleted");
     }
     if (deleteError && deleteUserIsError) {
-      toast.error(deleteError?.response?.data?.message || "Failed to delete user");
+      toast.error(deleteError?.data?.message || "Failed to delete user");
     }
   }, [deleteError, deleteUserIsError, deleteUserIsSuccess]);
 
@@ -66,7 +66,7 @@ const ManageUser = () => {
       toast.success(changeRoleData.message || "Role updated successfully");
     }
     if (changeRoleError && changeRoleIsError) {
-      toast.error(changeRoleError?.response?.data?.message || "Failed to update role");
+      toast.error(changeRoleError?.data?.message || "Failed to update role");
     }
   }, [changeRoleData, changeRoleError, changeRoleIsError]);
 

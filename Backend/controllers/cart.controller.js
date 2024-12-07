@@ -3,14 +3,8 @@ import { Cart } from "../models/cart.model.js";
 import { calculateTotalPrice } from "../utils/totalCartPrice.js";
 export const addToCart = async (req, res) => {
   try {
-    const { userId, pid, quantity } = req.body;
-
-    if (!userId || !pid || !quantity) {
-      return res.status(400).json({
-        message: "Please provide userId, productId, and quantity.",
-        success: false,
-      });
-    }
+    const { pid } = req.body;
+    const userId = req.user._id;
 
     // Check if the product exists
     const product = await Product.findById(pid);
@@ -37,10 +31,11 @@ export const addToCart = async (req, res) => {
 
     if (existingProductIndex !== -1) {
       // If product exists, update its quantity
-      cart.products[existingProductIndex].quantity += quantity;
+      cart.products[existingProductIndex].quantity += 1;
     } else {
       // Add new product to the cart
-      cart.products.push({ product: pid, quantity });
+      cart.products.push({ product: pid });
+      cart.products.quantity += 1;
     }
 
     // Save the updated cart
@@ -63,16 +58,19 @@ export const addToCart = async (req, res) => {
 
 export const getAllCartProduct = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
+
     const products = await Cart.find({ userId }).populate("products.product");
     if (products.length === 0) {
       return res.status(200).json({
         message: "Go to shooping page to add Product",
       });
     }
+    const totalPrice = calculateTotalPrice(products);
     return res.status(200).json({
       success: true,
       products,
+      totalPrice,
     });
   } catch (error) {
     console.log(error);
@@ -86,8 +84,8 @@ export const getAllCartProduct = async (req, res) => {
 
 export const deleteFromCart = async (req, res) => {
   try {
-    const { userId, pid } = req.body;
-
+    const { pid } = req.body;
+    const userId = req.user._id;
     const cart = await Cart.findOne({ userId });
     if (!cart) {
       return res.status(404).json({
@@ -100,9 +98,7 @@ export const deleteFromCart = async (req, res) => {
     cart.products = cart.products.filter(
       (item) => item.product.toString() !== pid
     );
-
     await cart.save();
-
     return res.status(200).json({
       success: true,
       message: "Product removed from cart successfully",
@@ -119,13 +115,7 @@ export const deleteFromCart = async (req, res) => {
 
 export const clearCart = async (req, res) => {
   try {
-    const { userId } = req.body;
-    if (!userId) {
-      return res.status(400).json({
-        message: "User ID is required.",
-        success: false,
-      });
-    }
+    const userId = req.user._id;
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {
@@ -154,15 +144,8 @@ export const clearCart = async (req, res) => {
 
 export const updateCart = async (req, res) => {
   try {
-    const { pid, userId, quantity } = req.body;
-
-    // Ensure that userId, pid, and quantity are provided
-    if (!userId || !pid || !quantity) {
-      return res.status(400).json({
-        message: "Please provide userId, productId, and quantity.",
-        success: false,
-      });
-    }
+    const { pid, quantity } = req.body;
+    const userId = req.user._id;
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {
@@ -211,7 +194,7 @@ export const updateCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.user._id;
     const cart = await Cart.findOne({ userId }).populate("products.product");
 
     if (!cart || cart.products.length === 0) {

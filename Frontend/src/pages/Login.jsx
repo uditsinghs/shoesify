@@ -27,7 +27,7 @@ const Login = () => {
       navigate("/");
     }
     if (error && isError) {
-      toast.error(error?.response?.data?.message || "Error in Login");
+      toast.error(error?.data?.message || "Error in Login");
     }
   }, [error, isSuccess, isError]);
   const handleOnChange = (e) => {

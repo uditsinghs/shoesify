@@ -1,21 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+
 
 const Dashboard = () => {
   return (
-    <div className="grid md:grid-cols-[20%,80%] grid-cols-1 w-full min-h-screen">
-      {/* Sidebar Section */}
-      <aside className="bg-gray-100 p-4 shadow-md">
-        <Sidebar />
-      </aside>
-
-      {/* Main Content Section */}
-      <main className="p-6">
-        <Outlet />
-      </main>
-      
+    <div>
+    <h1 className="text-7xl text-gray-800">
+    Dashboard 
+    </h1>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard  

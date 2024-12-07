@@ -28,7 +28,7 @@ const Signup = () => {
       navigate("/login");
     }
     if (error && isError) {
-      toast.error(error?.response?.data?.message || "Error in Signup");
+      toast.error(error?.data?.message || "Error in Signup");
     }
   }, [error, isSuccess, isError]);
 

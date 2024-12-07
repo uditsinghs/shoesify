@@ -20,7 +20,7 @@ router.post(
   upload.single("image"),
   addProduct
 );
-router.get("/get", getAllProduct);
+router.get("/get-product", getAllProduct);
 router.get("/get/:pid", getSingleProduct);
 router.delete(
   "/delete/:pid",
@@ -37,6 +37,6 @@ router.put(
 );
 // wishlist
 router.post("/add-wishlist/:pid", isAuthenticated, addWishlist);
-router.delete("/delete-wishlist/:pid", isAuthenticated, removeFromWishlist);
+router.post("/delete-wishlist/:pid", isAuthenticated, removeFromWishlist);
 router.get("/get-wishlist", isAuthenticated, getAllWiseListProduct);
 export default router;

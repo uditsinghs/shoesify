@@ -76,7 +76,7 @@ const ManageCategory = () => {
     }
     if (isError && error) {
       toast.error(
-        error?.response.data.message || "Something went wrong to add Category"
+        error?.data.message || "Something went wrong to add Category"
       );
     }
   }, [error, isError, isSuccess]);
@@ -88,7 +88,7 @@ const ManageCategory = () => {
     }
     if (deleteIsError && deleteError) {
       toast.error(
-        deleteError?.response.data.message ||
+        deleteError?.data.message ||
           "Something went wrong to delete Category"
       );
     }

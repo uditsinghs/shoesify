@@ -11,9 +11,9 @@ import {
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { userLoggedOut } from "@/features/Slices/userSlice";
 import { toast } from "sonner";
 import { useLogoutUserMutation } from "@/features/api's/userApi";
+import { useGetCartProductQuery } from "@/features/api's/cartApi";
 
 const Navbar = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -24,14 +24,16 @@ const Navbar = () => {
   const handleLogout = () => {
     logoutUser();
   };
+  const {data:cartData} = useGetCartProductQuery()
+  const cart = cartData?.products?.[0]?.products || [];
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message || "Logout successfully");
     }
     if (error && isError) {
-      toast.error(error?.response?.data?.message || "Error in logout");
+      toast.error(error?.data?.message || "Error in logout");
     }
-  }, []);
+  }, [error, isError, isSuccess]);
   return (
     <nav className="w-full bg-gray-700 text-white">
       {/* Desktop Navbar */}
@@ -46,15 +48,21 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-6 items-center">
-          <Link to="/wishlist" className="hover:text-gray-300">
-            <Heart />
-          </Link>
-          <Link to="/cart" className="hover:text-gray-300">
+          {isAuthenticated && (
+            <Link to="/wishlist" className="hover:text-gray-300">
+              <Heart />
+            </Link>
+          )}
+
+          <Link to="/cart" className="hover:text-gray-300 relative">
+            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-sm flex items-center justify-center">
+              {cart?.length}{" "}
+            </span>
             <ShoppingCartIcon />
           </Link>
           {user?.role === "admin" ? (
             <DropdownMenu>
-              <DropdownMenuTrigger>Admin</DropdownMenuTrigger>
+              <DropdownMenuTrigger>{user?.username}</DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -67,7 +75,7 @@ const Navbar = () => {
             </DropdownMenu>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger>User</DropdownMenuTrigger>
+              <DropdownMenuTrigger>{user?.username}</DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -76,16 +84,6 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link to="/orders">Orders</Link>
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem>
-                  <Button onClick={handleLogout}>
-                    {" "}
-                    {isLoading ? (
-                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                    ) : (
-                      "Logout"
-                    )}
-                  </Button>
-                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -107,11 +105,13 @@ const Navbar = () => {
       {/* Mobile Navbar */}
       <div className="flex md:hidden items-center justify-between px-4 h-[80px] bg-gray-700">
         <div>
-          <img
-            src="../../public/images/skechers-logo.png"
-            alt="logo"
-            className="w-14 h-14 object-contain"
-          />
+          <Link to="/">
+            <img
+              src="../../public/images/skechers-logo.png"
+              alt="logo"
+              className="w-20 h-20 object-contain"
+            />
+          </Link>
         </div>
         <Button
           variant="ghost"

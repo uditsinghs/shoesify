@@ -8,7 +8,7 @@ export const addProduct = async (req, res) => {
     const { name, description, price, quantity, shipping, categoryId } =
       req.body;
     const image = req.file;
-
+    console.log(name, description, price, quantity, shipping, categoryId,image);
     // Validate fields
     if (!name || !description || !price || !quantity || !categoryId) {
       return res.status(400).json({

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const BASE_URL = "http://localhost:8080/api/v1/product/";
 export const productApi = createApi({
+  reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",
@@ -10,20 +11,20 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => ({
-        url: "get",
+        url: "get-product",
         method: "GET",
       }),
       providesTags: ["Products"],
     }),
-    AddProduct: builder.mutation({
-      query: ({ inputData }) => ({
+    addProduct: builder.mutation({
+      query: (formData) => ({
         url: "add",
         method: "POST",
-        body: inputData,
+        body: formData,
       }),
-      providesTags: ["Products"],
+      invalidatesTags: ["Products"],
     }),
-    getSinglePost: builder.query({
+    getSingleProduct: builder.query({
       query: (pid) => ({
         url: `get/${pid}`,
         method: "GET",
@@ -35,7 +36,7 @@ export const productApi = createApi({
         url: `delete/${pid}`,
         method: "DELETE",
       }),
-      providesTags: ["Products"],
+      invalidatesTags: ["Products"],
     }),
     updateProduct: builder.mutation({
       query: ({ inputData, pid }) => ({
@@ -43,9 +44,39 @@ export const productApi = createApi({
         method: "PUT",
         body: inputData,
       }),
+      invalidatesTags: ["Products"],
+    }),
+    getWishlist: builder.query({
+      query: () => ({
+        url: "get-wishlist",
+        method: "GET",
+      }),
       providesTags: ["Products"],
+    }),
+    addToWishist: builder.mutation({
+      query: (pid) => ({
+        url: `add-wishlist/${pid}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    removeFromWishlist: builder.mutation({
+      query: (pid) => ({
+        url: `delete-wishlist/${pid}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Products"],
     }),
   }),
 });
 
-export const { useGetAllProductsQuery,useAddProductMutation,useDeleteProductMutation,useGetSinglePostQuery,useUpdateProductMutation} = productApi;
+export const {
+  useGetAllProductsQuery,
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useGetSingleProductQuery,
+  useUpdateProductMutation,
+  useAddToWishistMutation,
+  useGetWishlistQuery,
+  useRemoveFromWishlistMutation,
+} = productApi;

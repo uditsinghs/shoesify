@@ -35,7 +35,7 @@ const EditCategory = ({ open, setOpen, updateCategoryValue }) => {
       toast.success(data?.message);
     }
     if (isError && error) {
-      toast.error(error?.response?.data.message);
+      toast.error(error?.data.message);
     }
   }, [data, error, isError, isSuccess]);
 

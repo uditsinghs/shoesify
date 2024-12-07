@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const FilterAndSorting = () => {
   const [sortOption, setSortOption] = useState("relevance");
@@ -30,7 +30,6 @@ const FilterAndSorting = () => {
           onChange={(e) => setSortOption(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
         >
-          <option value="relevance">Relevance</option>
           <option value="priceLowToHigh">Price: Low to High</option>
           <option value="priceHighToLow">Price: High to Low</option>
           <option value="newest">Newest Arrivals</option>
