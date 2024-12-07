@@ -1,16 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { useAddToCartMutation } from "@/features/api's/cartApi";
-import { useGetSingleProductQuery } from "@/features/api's/productApi";
+import {
+  useGetSingleProductQuery,
+  useGetRelatedProductQuery,
+} from "@/features/api's/productApi";
 import { Loader, Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import RelatedProducts from "./RelatedProducts";
 
 const ProductDetailPage = () => {
+  const [cid, setCid] = useState("");
   const { pid } = useParams();
+
+  // Fetch single product
   const { data, isLoading, error, isError } = useGetSingleProductQuery(pid);
   const { product } = data || {};
 
+  // Update cid when product data is available
+  useEffect(() => {
+    if (product?.category?._id) {
+      setCid(product.category._id);
+    }
+  }, [product]);
+
+  // Fetch related products using cid
+  const { data: categoryData } = useGetRelatedProductQuery(cid);
+
+  // Add to cart mutation
   const [
     addToCart,
     {
@@ -21,10 +39,12 @@ const ProductDetailPage = () => {
       isSuccess: addToCartIsSuccess,
     },
   ] = useAddToCartMutation();
+
   const handleAddToCart = () => {
     addToCart(pid);
   };
 
+  // Toast notifications for add to cart
   useEffect(() => {
     if (addToCartData && addToCartIsSuccess) {
       toast.success(addToCartData?.message || "Added to cart");
@@ -33,6 +53,8 @@ const ProductDetailPage = () => {
       toast.error(addToCartError?.data?.message || "Internal server error");
     }
   }, [addToCartError, addToCartIsError, addToCartIsSuccess]);
+
+  // Loading and error states
   if (isLoading)
     return (
       <p className="flex justify-center items-center h-screen">
@@ -96,6 +118,11 @@ const ProductDetailPage = () => {
             )}
           </button>
         </div>
+      </div>
+      <div className="flex gap-5 mt-5">
+        {categoryData?.data?.map((product) => (
+          <RelatedProducts key={product._id} product={product} />
+        ))}
       </div>
     </>
   );

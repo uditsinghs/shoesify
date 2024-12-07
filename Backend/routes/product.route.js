@@ -7,6 +7,7 @@ import {
   deleteProduct,
   getAllProduct,
   getAllWiseListProduct,
+  getRelatedProduct,
   getSingleProduct,
   removeFromWishlist,
   updateProduct,
@@ -35,6 +36,7 @@ router.put(
   upload.single("image"),
   updateProduct
 );
+router.get("/related-product/:cid", getRelatedProduct);
 // wishlist
 router.post("/add-wishlist/:pid", isAuthenticated, addWishlist);
 router.post("/delete-wishlist/:pid", isAuthenticated, removeFromWishlist);

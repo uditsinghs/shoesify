@@ -8,7 +8,15 @@ export const addProduct = async (req, res) => {
     const { name, description, price, quantity, shipping, categoryId } =
       req.body;
     const image = req.file;
-    console.log(name, description, price, quantity, shipping, categoryId,image);
+    console.log(
+      name,
+      description,
+      price,
+      quantity,
+      shipping,
+      categoryId,
+      image
+    );
     // Validate fields
     if (!name || !description || !price || !quantity || !categoryId) {
       return res.status(400).json({
@@ -213,6 +221,46 @@ export const updateProduct = async (req, res) => {
   }
 };
 
+export const getRelatedProduct = async (req, res) => {
+  try {
+    const { cid } = req.params;
+    console.log(cid);
+    
+
+    // Find the category by its ID
+    const category = await Category.findById(cid);
+    if (!category) {
+      return res.status(404).json({
+        message: "Related Category not found.",
+        success: false,
+      });
+    }
+
+    // Find products related to the given category
+    const products = await Product.find({ category: cid });
+    if (products.length === 0) {
+      return res.status(200).json({
+        message: "No related products available.",
+        success: true,
+        data: [],
+      });
+    }
+
+    // If products are found, return them
+    return res.status(200).json({
+      message: "Related products fetched successfully.",
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error.",
+      error: error.message,
+      success: false,
+    });
+  }
+};
 
 
 // wiselist product

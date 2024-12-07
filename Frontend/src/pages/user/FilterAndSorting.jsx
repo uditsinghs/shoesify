@@ -1,12 +1,22 @@
+import { useGetAllCategoryQuery } from "@/features/api's/categoryApi";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const FilterAndSorting = () => {
   const [sortOption, setSortOption] = useState("relevance");
-  const [categories, setCategories] = useState({
-    electronics: false,
-    fashion: false,
-    books: false,
-  });
+  const [categories, setCategories] = useState({});
+  const { data } = useGetAllCategoryQuery();
+  const { categories: categoryList } = data || {};
+  console.log(categoryList);
 
   const handleCategoryChange = (category) => {
     setCategories((prev) => ({
@@ -15,53 +25,55 @@ const FilterAndSorting = () => {
     }));
   };
 
+  const applyFilters = () => {};
+
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold mb-4">Filter & Sort</h2>
+    <Card className="p-6 bg-white rounded-lg shadow-md max-w-md">
+      <h2 className="text-xl font-semibold mb-4">Filter & Sort</h2>
 
       {/* Sorting Options */}
       <div className="mb-6">
-        <label htmlFor="sort" className="block text-sm font-medium mb-2">
-          Sort by:
-        </label>
-        <select
-          id="sort"
+        <label className="block text-sm font-medium mb-2">Sort by:</label>
+        <Select
+          onValueChange={(value) => setSortOption(value)}
           value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
+          defaultValue={setSortOption}
         >
-          <option value="priceLowToHigh">Price: Low to High</option>
-          <option value="priceHighToLow">Price: High to Low</option>
-          <option value="newest">Newest Arrivals</option>
-        </select>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select sort option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="priceLowToHigh">Price: Low to High</SelectItem>
+            <SelectItem value="priceHighToLow">Price: High to Low</SelectItem>
+            <SelectItem value="newest">Newest Arrivals</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Category Filters */}
       <div className="mb-6">
         <h3 className="text-sm font-medium mb-2">Categories:</h3>
         <div className="space-y-2">
-          {Object.keys(categories).map((category) => (
-            <label key={category} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={categories[category]}
-                onChange={() => handleCategoryChange(category)}
-                className="rounded border-gray-300 text-gray-600 focus:ring-gray-500"
+          {categoryList?.map((category) => (
+            <label key={category._id} className="flex items-center gap-2">
+              <Checkbox
+                checked={categories[category.categoryname] || false}
+                onCheckedChange={() =>
+                  handleCategoryChange(category.categoryname)
+                }
               />
-              {category.charAt(0).toUpperCase() + category.slice(1)}
+              {category.categoryname.charAt(0).toUpperCase() +
+                category.categoryname.slice(1)}
             </label>
           ))}
         </div>
       </div>
 
       {/* Apply Filters Button */}
-      <button
-        onClick={() => console.log({ sortOption, categories })}
-        className="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700"
-      >
+      <Button onClick={applyFilters} className="w-full">
         Apply Filters
-      </button>
-    </div>
+      </Button>
+    </Card>
   );
 };
 

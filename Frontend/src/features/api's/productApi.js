@@ -31,6 +31,12 @@ export const productApi = createApi({
       }),
       providesTags: ["Product"],
     }),
+    getRelatedProduct: builder.query({
+      query: (cid) => ({
+        url: `related-product/${cid}`,
+        method: "GET",
+      }),
+    }),
     deleteProduct: builder.mutation({
       query: (pid) => ({
         url: `delete/${pid}`,
@@ -79,4 +85,5 @@ export const {
   useAddToWishistMutation,
   useGetWishlistQuery,
   useRemoveFromWishlistMutation,
+  useGetRelatedProductQuery
 } = productApi;
