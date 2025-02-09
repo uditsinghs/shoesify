@@ -32,8 +32,6 @@ const Product = ({ product }) => {
     addToWiselist(pid);
   };
 
-  console.log(error, isError, data);
-
   useEffect(() => {
     if (data && isSuccess) {
       toast.success(data?.message || "Add to Cart Successfully");
@@ -104,7 +102,7 @@ const Product = ({ product }) => {
                 <Loader2 className="mr-2 animate-spin h-4 w-4" />
               ) : (
                 "  Add to Wishlist"
-              )}  
+              )}
             </Button>
           </div>
         </div>

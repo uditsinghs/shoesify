@@ -36,7 +36,7 @@ router.put(
   upload.single("image"),
   updateProduct
 );
-router.get("/related-product/:cid", getRelatedProduct);
+router.get("/products/:pid/related", getRelatedProduct);
 // wishlist
 router.post("/add-wishlist/:pid", isAuthenticated, addWishlist);
 router.post("/delete-wishlist/:pid", isAuthenticated, removeFromWishlist);

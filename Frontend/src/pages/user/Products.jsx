@@ -7,8 +7,6 @@ import Product from "./Product";
 const Products = ({ searchTerm }) => {
   const { data, isLoading, isError, error } = useGetAllProductsQuery();
   const { products } = data || [];
-  console.log(products);
-  
 
   // searching algo
   const filteredProduct = products?.filter((product) =>

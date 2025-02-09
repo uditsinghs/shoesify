@@ -18,7 +18,6 @@ router.post(
 router.get(
   "/admin/getall",
   isAuthenticated,
-  isAuthorized("admin"),
   getAllCategories
 );
 

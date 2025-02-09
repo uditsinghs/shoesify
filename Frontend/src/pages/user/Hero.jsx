@@ -1,34 +1,35 @@
 import Carousel from "@/components/Carousal";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
-import FilterAndSorting from "./FilterAndSorting";
 import Products from "./Products";
+
+
+
 
 const Hero = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  // Debounce input
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchTerm);
-    }, 300); // 300ms debounce
+    }, 300); 
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
+
+
   return (
-    <div className="w-full grid md:grid-cols-[20%,80%] grid-cols-1 gap-4 px-4 md:px-8 py-6">
-      {/* Filter and Sorting Section */}
-      <div className="bg-white p-4 rounded-lg shadow md:sticky md:top-4 h-full">
-        <FilterAndSorting />
-      </div>
+    <div className="w-full grid grid-cols-1 gap-4 px-4 md:px-8 py-6">
+    
 
       {/* Search and Carousel Section */}
       <div className="flex flex-col gap-6">
         {/* Search Bar */}
-        <div className="w-full max-w-2xl mx-auto">
+        <div className="w-full max-w-2xl mx-auto flex">
           <Input
-            placeholder="Search by name, category, or description"
+            placeholder="Search by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full text-center p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-500"

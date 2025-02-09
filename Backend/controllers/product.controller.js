@@ -223,37 +223,42 @@ export const updateProduct = async (req, res) => {
 
 export const getRelatedProduct = async (req, res) => {
   try {
-    const { cid } = req.params;
-    console.log(cid);
-    
+    const { pid } = req.params;
+    // const { page = 1, limit = 5 } = req.query;
 
-    // Find the category by its ID
-    const category = await Category.findById(cid);
-    if (!category) {
+    // Find the product by its ID
+    const product = await Product.findById(pid);
+    if (!product) {
       return res.status(404).json({
-        message: "Related Category not found.",
+        message: "Product not found.",
         success: false,
       });
     }
 
-    // Find products related to the given category
-    const products = await Product.find({ category: cid });
-    if (products.length === 0) {
-      return res.status(200).json({
-        message: "No related products available.",
-        success: true,
-        data: [],
-      });
-    }
+    // const totalProducts = await Product.countDocuments({
+    //   _id: { $ne: pid },
+    //   category: product.category,
+    // });
 
-    // If products are found, return them
+    const products = await Product.find({
+      _id: { $ne: pid },
+      category: product.category,
+    });
+    // .skip((page - 1) * limit)
+    // .limit(Number(limit));
+
     return res.status(200).json({
       message: "Related products fetched successfully.",
       success: true,
       data: products,
+      // pagination: {
+      //   totalProducts,
+      //   currentPage: Number(page),
+      //   totalPages: Math.ceil(totalProducts / limit),
+      // },
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching related products:", error);
     res.status(500).json({
       message: "Internal server error.",
       error: error.message,
@@ -262,6 +267,18 @@ export const getRelatedProduct = async (req, res) => {
   }
 };
 
+const sortAndFilterProducts = async (req, res) => {
+  try {
+        
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+      success: false,
+    });
+  }
+};
 
 // wiselist product
 export const addWishlist = async (req, res) => {

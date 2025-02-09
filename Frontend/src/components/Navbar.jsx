@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Heart, Loader2, ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -43,7 +43,7 @@ const Navbar = () => {
             <img
               src="../../public/images/skechers-logo.png"
               alt="logo"
-              className="w-20 h-20 object-contain"
+              className="w-40 h-40 object-contain"
             />
           </Link>
         </div>

@@ -5,29 +5,21 @@ import {
   useGetRelatedProductQuery,
 } from "@/features/api's/productApi";
 import { Loader, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import RelatedProducts from "./RelatedProducts";
 
 const ProductDetailPage = () => {
-  const [cid, setCid] = useState("");
   const { pid } = useParams();
 
   // Fetch single product
   const { data, isLoading, error, isError } = useGetSingleProductQuery(pid);
   const { product } = data || {};
 
-  // Update cid when product data is available
-  useEffect(() => {
-    if (product?.category?._id) {
-      setCid(product.category._id);
-    }
-  }, [product]);
-
   // Fetch related products using cid
-  const { data: categoryData } = useGetRelatedProductQuery(cid);
-
+  const { data: categoryData } = useGetRelatedProductQuery(pid);
+  console.log("related_Product", categoryData);
   // Add to cart mutation
   const [
     addToCart,
@@ -65,7 +57,7 @@ const ProductDetailPage = () => {
 
   return (
     <>
-      <Button className="mx-4">
+      <Button className="m-4">
         <Link to="/">BACK</Link>
       </Button>
 
@@ -119,10 +111,16 @@ const ProductDetailPage = () => {
           </button>
         </div>
       </div>
-      <div className="flex gap-5 mt-5">
-        {categoryData?.data?.map((product) => (
-          <RelatedProducts key={product._id} product={product} />
-        ))}
+
+      <div className="">
+        <div>
+          <h1 className="text-center font-bold text-2xl">Similar Products</h1>
+        </div>
+        <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-3 mt-4">
+          {categoryData?.data?.map((product) => (
+            <RelatedProducts key={product._id} product={product} />
+          ))}
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Layout from "./Layout";
@@ -16,36 +17,73 @@ import ManageCategory from "./pages/admin/ManageCategory";
 import UpdateProduct from "./pages/admin/SubComponents/UpdateProduct";
 import AdminLayout from "./pages/admin/AdminLayout";
 import ProductDetailPage from "./pages/user/ProductDetailPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+
   const appRouter = createBrowserRouter([
     {
       path: "/",
       element: <Layout />,
       children: [
+        { path: "/", element: <Hero /> },
         {
-          path: "/",
+          path: "cart",
           element: (
-            <>
-              <Hero />
-            
-            </>
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <Cart />
+            </ProtectedRoute>
           ),
         },
-        { path: "cart", element: <Cart /> },
-        { path: "profile", element: <Profile /> },
-        { path: "profile/address", element: <ManageAddress /> },
-        { path: "wishlist", element: <Wishlist /> },
-        { path: "orders", element: <UserOrders /> },
-        { path: "product/:pid", element: <ProductDetailPage /> },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile/address",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <ManageAddress />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "wishlist",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <Wishlist />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "orders",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <UserOrders />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "product/:pid",
+          element: <ProductDetailPage />,
+        },
         {
           path: "admin",
-          element: <AdminLayout />,
+          element: (
+            <ProtectedRoute isAllowed={user?.role === "admin"}>
+              <AdminLayout />
+            </ProtectedRoute>
+          ),
           children: [
             { index: true, element: <Dashboard /> },
             { path: "user", element: <ManageUser /> },
             { path: "product", element: <ManageProduct /> },
-            { path: "/admin/product/update/:pid", element: <UpdateProduct /> },
+            { path: "product/update/:pid", element: <UpdateProduct /> },
             { path: "order", element: <ManageOrder /> },
             { path: "category", element: <ManageCategory /> },
           ],

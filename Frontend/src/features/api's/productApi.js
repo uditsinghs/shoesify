@@ -32,8 +32,8 @@ export const productApi = createApi({
       providesTags: ["Product"],
     }),
     getRelatedProduct: builder.query({
-      query: (cid) => ({
-        url: `related-product/${cid}`,
+      query: (pid) => ({
+        url: `products/${pid}/related`,
         method: "GET",
       }),
     }),
