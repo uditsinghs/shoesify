@@ -1,6 +1,7 @@
 
 
 const Dashboard = () => {
+
   return (
     <div>
     <h1 className="text-7xl text-gray-800">

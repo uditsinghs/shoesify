@@ -7,8 +7,10 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useAddToCartMutation } from "@/features/api's/cartApi";
+import { useSelector } from "react-redux";
 
 const RelatedProducts = ({ product }) => {
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { name, description, price, quantity, image, shipping } = product;
   const [
     addToCart,
@@ -66,7 +68,13 @@ const RelatedProducts = ({ product }) => {
             <p className="text-sm text-gray-500">Stock: {quantity}</p>
           </div>
           <div className="flex justify-between my-2">
-            <Button onClick={() => handleAddToCart(product._id)}>
+            <Button
+              onClick={() =>
+                isAuthenticated
+                  ? handleAddToCart(product._id)
+                  : (window.location.href = "/login")
+              }
+            >
               {addToCartIsLoading ? (
                 <Loader2 className="mr-2 w-4 h-4 animate-spin" />
               ) : (

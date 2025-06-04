@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Layout from "./Layout";
@@ -18,9 +18,20 @@ import UpdateProduct from "./pages/admin/SubComponents/UpdateProduct";
 import AdminLayout from "./pages/admin/AdminLayout";
 import ProductDetailPage from "./pages/user/ProductDetailPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ResetPassword from "./pages/ResetPassword";
+import { useEffect } from "react";
+import { userApi } from "./features/api's/userApi";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userApi.endpoints.loadUser.initiate({}, { forceRefetch: true }));
+  }, [dispatch]);
+
+
   const { user, isAuthenticated } = useSelector((state) => state.user);
+
 
   const appRouter = createBrowserRouter([
     {
@@ -75,7 +86,9 @@ const App = () => {
         {
           path: "admin",
           element: (
-            <ProtectedRoute isAllowed={user?.role === "admin"}>
+            <ProtectedRoute
+              isAllowed={isAuthenticated && user?.role === "admin"}
+            >
               <AdminLayout />
             </ProtectedRoute>
           ),
@@ -91,6 +104,7 @@ const App = () => {
       ],
     },
     { path: "/signup", element: <Signup /> },
+    { path: "/reset", element: <ResetPassword /> },
     { path: "/login", element: <Login /> },
   ]);
 

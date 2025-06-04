@@ -18,12 +18,12 @@ const ManageProduct = () => {
     );
   if (isError && error) return <p>{error.message}</p>;
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-5">
       <div className="flex justify-end">
         <Button onClick={() => setOpen(!open)}>Add Product</Button>
         <AddProduct open={open} setOpen={setOpen}/>
       </div>
-      <div className="grid md:grid-cols-3 grid-cols-1 ">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
         {products?.map((product) => (
           <Product key={product._id} product={product} />
         ))}

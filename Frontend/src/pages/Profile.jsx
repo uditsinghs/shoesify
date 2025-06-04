@@ -28,6 +28,9 @@ const Profile = () => {
             <Button variant="outline">
               <Link to="/orders">See my orders</Link>
             </Button>
+            <Button variant="outline">
+              <Link to="/reset">Reset Password</Link>
+            </Button>
             <Button>
               <Link to="/profile/address">Manage Address</Link>
             </Button>

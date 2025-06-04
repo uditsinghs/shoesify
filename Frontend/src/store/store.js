@@ -11,10 +11,10 @@ export const store = configureStore({
     defaultMiddleware().concat(userApi.middleware,categoryApi.middleware,productApi.middleware,cartApi.middleware),
 });
 
-const initializeApp = async () => {
-  await store.dispatch(
-    userApi.endpoints.loadUser.initiate({}, { forceRefetch: true })
-  );
-};
+// const initializeApp = async () => {
+//   await store.dispatch(
+//     userApi.endpoints.loadUser.initiate({}, { forceRefetch: true })
+//   );
+// };
 
-initializeApp();
+// initializeApp();

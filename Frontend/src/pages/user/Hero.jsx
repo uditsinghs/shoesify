@@ -2,28 +2,32 @@ import Carousel from "@/components/Carousal";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import Products from "./Products";
-
-
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
+
+  // if the user role is admin
+  useEffect(() => {
+    if (isAuthenticated && user?.role === "admin") {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, user, navigate]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchTerm);
-    }, 300); 
+    }, 300);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-
-
   return (
     <div className="w-full grid grid-cols-1 gap-4 px-4 md:px-8 py-6">
-    
-
       {/* Search and Carousel Section */}
       <div className="flex flex-col gap-6">
         {/* Search Bar */}

@@ -22,7 +22,7 @@ const Product = ({ product }) => {
 
   return (
     <Link to={`update/${product._id}`}>
-    <Card className="w-full max-w-sm">
+    <Card className="w-full">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold">{name}</CardTitle>

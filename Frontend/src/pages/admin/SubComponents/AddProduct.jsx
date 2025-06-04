@@ -95,7 +95,7 @@ const AddProduct = ({ open, setOpen }) => {
     if (addIsError && addError) {
       toast.error(addError.data.message || "Internal server error");
     }
-  }, [addError, addIsError, addIssuccess, setOpen]);
+  }, [addData, addError, addIsError, addIssuccess, setOpen]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">

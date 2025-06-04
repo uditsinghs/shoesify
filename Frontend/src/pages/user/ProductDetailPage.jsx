@@ -6,12 +6,16 @@ import {
 } from "@/features/api's/productApi";
 import { Loader, Loader2 } from "lucide-react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import RelatedProducts from "./RelatedProducts";
+import { useSelector } from "react-redux";
 
 const ProductDetailPage = () => {
   const { pid } = useParams();
+
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   // Fetch single product
   const { data, isLoading, error, isError } = useGetSingleProductQuery(pid);
@@ -44,7 +48,7 @@ const ProductDetailPage = () => {
     if (addToCartIsError && addToCartError) {
       toast.error(addToCartError?.data?.message || "Internal server error");
     }
-  }, [addToCartError, addToCartIsError, addToCartIsSuccess]);
+  }, [addToCartData, addToCartError, addToCartIsError, addToCartIsSuccess]);
 
   // Loading and error states
   if (isLoading)
@@ -100,7 +104,7 @@ const ProductDetailPage = () => {
 
           {/* Add to Cart Button */}
           <button
-            onClick={handleAddToCart}
+            onClick={()=>isAuthenticated ? handleAddToCart : navigate("/login")}
             className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200"
           >
             {addToCartIsLoading ? (
@@ -117,7 +121,8 @@ const ProductDetailPage = () => {
           <h1 className="text-center font-bold text-2xl">Similar Products</h1>
         </div>
         <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-3 mt-4">
-          {categoryData?.data?.map((product) => (
+
+          {categoryData?.data?.length===0 ? (<p className="text-center font-bold text-2xl">No similiar product available</p>) : categoryData?.data?.map((product) => (
             <RelatedProducts key={product._id} product={product} />
           ))}
         </div>

@@ -2,15 +2,18 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAddToWishistMutation } from "@/features/api's/productApi";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useAddToCartMutation } from "@/features/api's/cartApi";
+import { useSelector } from "react-redux";
 
 const Product = ({ product }) => {
+  const navigate = useNavigate()
+  const {isAuthenticated} = useSelector((state)=>state.user)
   const { name, description, price, quantity, image, shipping } = product;
   const [addToWiselist, { data, isLoading, isSuccess, error, isError }] =
     useAddToWishistMutation();
@@ -45,14 +48,7 @@ const Product = ({ product }) => {
     if (addToCartIsError && addToCartError) {
       toast.error(addToCartError?.data?.message || "Internal server error");
     }
-  }, [
-    error,
-    isError,
-    isSuccess,
-    addToCartIsSuccess,
-    addToCartIsError,
-    addToCartError,
-  ]);
+  }, [error, isError, isSuccess, addToCartIsSuccess, addToCartIsError, addToCartError, data, addToCartData]);
   return (
     <Card className="w-full max-w-xl">
       <CardHeader>
@@ -87,7 +83,7 @@ const Product = ({ product }) => {
             <p className="text-sm text-gray-500">Stock: {quantity}</p>
           </div>
           <div className="flex justify-between my-2">
-            <Button onClick={() => handleAddToCart(product._id)}>
+            <Button onClick={() => isAuthenticated ?  handleAddToCart(product._id) : navigate("/login")}>
               {addToCartIsLoading ? (
                 <Loader2 className="mr-2 w-4 h-4 animate-spin" />
               ) : (
@@ -95,7 +91,7 @@ const Product = ({ product }) => {
               )}
             </Button>
             <Button
-              onClick={() => handleAddToWishlist(product._id)}
+              onClick={() => isAuthenticated ? handleAddToWishlist(product._id) : navigate("/login")}
               variant={"outline"}
             >
               {isLoading ? (

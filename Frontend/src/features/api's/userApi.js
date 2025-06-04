@@ -61,6 +61,14 @@ export const userApi = createApi({
         }
       },
     }),
+    resetPassword: builder.mutation({
+      query: (userData) => ({
+        url: "reset-password",
+        method: "POST",
+        body: { userData },
+      }),
+  
+    }),
     addAddress: builder.mutation({
       query: (address) => ({
         url: "add-address",
@@ -104,8 +112,7 @@ export const userApi = createApi({
         method: "POST",
         body: { role },
       }),
-      invalidatesTags: ["users","user"],
-    
+      invalidatesTags: ["users", "user"],
     }),
   }),
 });
@@ -121,4 +128,5 @@ export const {
   useDeleteUserMutation,
   useChangeRoleMutation,
   useGetAllUsersQuery,
+  useResetPasswordMutation,
 } = userApi;

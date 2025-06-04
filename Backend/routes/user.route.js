@@ -3,7 +3,7 @@ import {
   updateAddress,
   login,
   logout,
-  resetPassword,
+  // resetPassword,
   signup,
   addAddress,
   getUser,
@@ -18,7 +18,7 @@ const router = express.Router();
 router.post("/register", signup);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/reset-password", isAuthenticated, resetPassword);
+// router.post("/reset-password", resetPassword);
 router.post("/add-address", isAuthenticated, addAddress);
 router.put("/update-address", isAuthenticated, updateAddress);
 router.get("/me", isAuthenticated, getUser);
