@@ -4,11 +4,12 @@ import { userApi } from "@/features/api's/userApi";
 import { categoryApi } from "@/features/api's/categoryApi";
 import { productApi } from "@/features/api's/productApi";
 import { cartApi } from "@/features/api's/cartApi";
+import { orderApi } from "@/features/api's/orderApi";
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (defaultMiddleware) =>
-    defaultMiddleware().concat(userApi.middleware,categoryApi.middleware,productApi.middleware,cartApi.middleware),
+    defaultMiddleware().concat(userApi.middleware,categoryApi.middleware,productApi.middleware,cartApi.middleware,orderApi.middleware),
 });
 
 // const initializeApp = async () => {

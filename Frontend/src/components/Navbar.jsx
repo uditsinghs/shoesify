@@ -24,11 +24,12 @@ const Navbar = () => {
   const handleLogout = () => {
     logoutUser();
   };
-  const { data: cartData } = useGetCartProductQuery();
+  const { data: cartData, refetch } = useGetCartProductQuery();
   const cart = cartData?.products?.[0]?.products || [];
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message || "Logout successfully");
+      refetch;
     }
     if (error && isError) {
       toast.error(error?.data?.message || "Error in logout");
@@ -118,20 +119,6 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-gray-800 text-white p-4">
           <ul className="space-y-4">
-            <li>
-              {isAuthenticated ? (
-                <Button onClick={handleLogout}>
-                  {isLoading ? (
-                    <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                  ) : (
-                    "Logout"
-                  )}
-                </Button>
-              ) : (
-                <Link to="/login">Login</Link>
-              )}
-            </li>
-
             {user?.role === "customer" && (
               <>
                 <li>
@@ -142,6 +129,19 @@ const Navbar = () => {
                 <li>
                   <Link to="/orders" className="hover:text-gray-300">
                     Orders
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/cart" className="hover:text-gray-300 relative">
+                    <span className="absolute top-0 bg-red-500 text-white rounded-full w-5 h-5 text-sm flex items-center justify-center">
+                      {cart?.length}{" "}
+                    </span>
+                    <ShoppingCartIcon />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/wishlist" className="hover:text-gray-300">
+                    <Heart />
                   </Link>
                 </li>
                 <li>

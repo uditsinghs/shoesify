@@ -33,7 +33,7 @@ const Login = () => {
     if (error && isError) {
       toast.error(error?.data?.message || "Error in Login");
     }
-  }, [error, isSuccess, isError]);
+  }, [error, isSuccess, isError, data, navigate]);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInput({

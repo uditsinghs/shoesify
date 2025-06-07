@@ -7,6 +7,8 @@ import userRouter from "./routes/user.route.js";
 import cateogryRouter from "./routes/category.route.js";
 import productRouter from "./routes/product.route.js";
 import cartRouter from "./routes/cart.route.js";
+import orderRouter from './routes/order.route.js'
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -28,11 +30,16 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+
+
+
+
 // created api's
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/category", cateogryRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/cart", cartRouter);
+app.use('/api/v1/order', orderRouter)
 // Database connection
 connectDb();
 

@@ -16,8 +16,10 @@ import {
   useUpdateCartMutation,
 } from "@/features/api's/cartApi";
 import { Loader, Loader2, MinusCircle, PlusCircle } from "lucide-react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
+
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { data, isLoading, isError, error } = useGetCartProductQuery();
@@ -88,14 +90,14 @@ const Cart = () => {
     updateIsSuccess,
   ]);
 
+  const navigate = useNavigate();
+
   // Extract cart products from the data
   const cart = data?.products?.[0]?.products || [];
-  const totalPrice = useMemo(() => {
-    return cart.reduce(
-      (total, item) => total + item.product.price * item.quantity,
-      0
-    );
-  }, [cart]);
+
+  const handleRedirect = ()=>{
+    navigate('/checkout')
+  }
 
   const handleIncrement = (productId, quantity) => {
     updateCart({ pid: productId, quantity: quantity + 1 });
@@ -196,7 +198,9 @@ const Cart = () => {
           Your cart is empty. Add some products to see them here.
         </p>
       )}
-      <p className="text-right font-bold">Total Price: ₹{totalPrice}</p>
+      <div>
+        <Button onClick={handleRedirect}>Checkout</Button>
+      </div>
     </div>
   );
 };

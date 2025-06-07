@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Card,
   CardContent,
@@ -19,7 +20,7 @@ import {
 } from "@/features/api's/userApi";
 import { toast } from "sonner";
 
-const ManageAddress = () => {
+const ManageAddress = ({redirectTo="/profile"}) => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user); // Assume Redux state provides the user data.
   const [address, setAddress] = useState({
@@ -91,21 +92,34 @@ const ManageAddress = () => {
       toast.success(
         updateAddressData?.message || "Address updated successfully"
       );
-      navigate("/profile");
+      if (redirectTo === "back") {
+        window.history.back();
+      } else if (redirectTo === "referer") {
+        window.location.href = document.referrer;
+      } else {
+        navigate(redirectTo);
+      }
+    
     }
     if (updateIserror && updateError) {
-      toast.error(updateerror?.data?.message || "Error in updating address");
+      toast.error(updateError?.data?.message || "Error in updating address");
     }
-  }, [updateAddressData, updateError, updateIsSuccess, updateIserror]);
+  }, [navigate, redirectTo, updateAddressData, updateError, updateIsSuccess, updateIserror]);
   useEffect(() => {
     if (deleteIsSucces && deleteData) {
       toast.success(deleteData?.message || "Address deleted successfully");
-      navigate("/profile");
+    if (redirectTo === "back") {
+        window.history.back();
+      } else if (redirectTo === "referer") {
+        window.location.href = document.referrer;
+      } else {
+        navigate(redirectTo);
+      }
     }
     if (deleteIsError && deleteError) {
-      toast.error(deleteerror?.data?.message || "Error in deleting address");
+      toast.error(deleteError?.data?.message || "Error in deleting address");
     }
-  }, [deleteData, deleteError, deleteIsSucces, deleteIsSucces]);
+  }, [deleteData, deleteError, deleteIsError, deleteIsSucces, navigate]);
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 h-full flex justify-center items-center">
       <Card className="w-full max-w-lg shadow-md">

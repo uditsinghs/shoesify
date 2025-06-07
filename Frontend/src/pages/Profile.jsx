@@ -31,7 +31,7 @@ const Profile = () => {
             <Button variant="outline">
               <Link to="/reset">Reset Password</Link>
             </Button>
-            <Button>
+            <Button >
               <Link to="/profile/address">Manage Address</Link>
             </Button>
           </div>

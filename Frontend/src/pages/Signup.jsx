@@ -13,6 +13,8 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
+    answer:"",
+
   });
   const [registerUser, { data, isLoading, isError, isSuccess, error }] =
     useRegisterUserMutation();
@@ -24,6 +26,7 @@ const Signup = () => {
         username: "",
         email: "",
         password: "",
+        answer:"",
       });
       navigate("/login");
     }
@@ -89,6 +92,19 @@ const Signup = () => {
               onChange={handleOnChange}
               type="password"
               placeholder="Enter your password"
+              className="mt-1"
+            />
+          </div>
+            <div>
+            <label htmlFor="password" className="block text-sm text-zinc-300">
+              Best Friend Name
+            </label>
+            <Input
+              name="answer"
+              value={input.answer}
+              onChange={handleOnChange}
+              type="text"
+              placeholder="Enter your Friend"
               className="mt-1"
             />
           </div>

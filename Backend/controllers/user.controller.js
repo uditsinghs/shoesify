@@ -103,59 +103,60 @@ export const logout = async (req, res) => {
   }
 };
 
-// export const resetPassword = async (req, res) => {
-//   try {
-//     const { password, confirmPassword, answer } = req.body;
-//     const userId = req.user._id;
-//     console.log(userId);
-//     console.log(password, confirmPassword, answer );
+export const resetPassword = async (req, res) => {
+  try {
+    const { password, confirmPassword, answer } = req.body;
+    
+    const userId = req.user._id;
+
+
     
     
 
-//     const user = await User.findById(userId).select("+password");
-//     if (!user) {
-//       return res.status(404).json({
-//         message: "user not found",
-//         success: false,
-//       });
-//     }
-//     if (!answer) {
-//       return res.status(404).json({
-//         message: "please provide answer of question.",
-//         success: false,
-//       });
-//     }
-//     if (password !== confirmPassword) {
-//       return res.status(400).json({
-//         message: "confirm password is not match.",
-//         success: false,
-//       });
-//     }
-//     // check if the answer that store in db is matched by input answer.
-//     if (user.answer !== answer) {
-//       return res.status(400).json({
-//         message: "input right answer.",
-//         success: false,
-//       });
-//     }
-//     // now change the password;
-//     if (user.password) {
-//       user.password = password;
-//       await user.save();
-//     }
-//     res.status(200).json({
-//       message: "Password reset successfully.",
-//       success: true,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({
-//       success: false,
-//       message: "Internal server error.",
-//       error: error.message,
-//     });
-//   }
-// };
+    const user = await User.findById(userId).select("+password");
+    if (!user) {
+      return res.status(404).json({
+        message: "user not found",
+        success: false,
+      });
+    }
+    if (!answer) {
+      return res.status(404).json({
+        message: "please provide answer of question.",
+        success: false,
+      });
+    }
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        message: "confirm password is not match.",
+        success: false,
+      });
+    }
+    // check if the answer that store in db is matched by input answer.
+    if (user.answer !== answer) {
+      return res.status(400).json({
+        message: "input right answer.",
+        success: false,
+      });
+    }
+    // now change the password;
+    if (user.password) {
+      user.password = password;
+      await user.save();
+    }
+    res.status(200).json({
+      message: "Password reset successfully.",
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+};
 
 export const addAddress = async (req, res) => {
   try {

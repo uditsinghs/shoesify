@@ -25,6 +25,10 @@ const ResetPassword = () => {
     });
   };
 
+  const handleResetPassword = () => {
+    resetPassword(input);
+  };
+
   useEffect(() => {
     if (data && isSuccess) {
       toast.success(data?.message || "reset Password successfully");
@@ -39,17 +43,12 @@ const ResetPassword = () => {
       toast.error(error?.data?.message || "Error in reset password");
     }
   }, [error, isSuccess, isError]);
-  const handleResetPassword = () => {
-    resetPassword({userData:input});
-  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900 text-white">
       <Card className="max-w-md w-full p-6 bg-zinc-700 rounded-xl shadow-lg">
         <CardHeader>
-        
-          <p className="text-zinc-400 text-center mt-1">
-            RESET PASSWORD 
-          </p>
+          <p className="text-zinc-400 text-center mt-1">RESET PASSWORD</p>
         </CardHeader>
         <div className="space-y-4">
           <div>

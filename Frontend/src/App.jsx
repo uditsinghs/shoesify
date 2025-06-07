@@ -8,9 +8,9 @@ import Dashboard from "./pages/admin/Dashboard";
 import ManageUser from "./pages/admin/ManageUser";
 import ManageProduct from "./pages/admin/ManageProduct";
 import ManageOrder from "./pages/admin/ManageOrder";
-import Cart from "./pages/Cart";
+import Cart from "./pages/user/Cart";
 import Profile from "./pages/Profile";
-import Wishlist from "./pages/Wishlist";
+import Wishlist from "./pages/user/Wishlist";
 import UserOrders from "./pages/user/UserOrders";
 import ManageAddress from "./pages/ManageAddress";
 import ManageCategory from "./pages/admin/ManageCategory";
@@ -21,6 +21,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import ResetPassword from "./pages/ResetPassword";
 import { useEffect } from "react";
 import { userApi } from "./features/api's/userApi";
+import { Loader } from "lucide-react";
+import Checkout from "./pages/user/Checkout";
+import OrderSuccess from "./components/OrderSuccess";
+import OrderDetails from "./pages/user/OrderDetails";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,9 +33,17 @@ const App = () => {
     dispatch(userApi.endpoints.loadUser.initiate({}, { forceRefetch: true }));
   }, [dispatch]);
 
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state) => state.user
+  );
 
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-
+  if (isLoading) {
+    return (
+      <div>
+        <Loader className="w-20 h-20 animate-spin mr-4" />
+      </div>
+    );
+  }
 
   const appRouter = createBrowserRouter([
     {
@@ -47,10 +59,18 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+          {
+          path: "checkout",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <Checkout/>
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "profile",
           element: (
-            <ProtectedRoute isAllowed={isAuthenticated}>
+            <ProtectedRoute isAllowed={isAuthenticated} isLoading={isLoading}>
               <Profile />
             </ProtectedRoute>
           ),
@@ -79,6 +99,14 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+          {
+          path: "order/:id",
+          element: (
+            <ProtectedRoute isAllowed={isAuthenticated}>
+              <OrderDetails />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "product/:pid",
           element: <ProductDetailPage />,
@@ -104,6 +132,7 @@ const App = () => {
       ],
     },
     { path: "/signup", element: <Signup /> },
+    {path:"/order-success",element:<OrderSuccess />},
     { path: "/reset", element: <ResetPassword /> },
     { path: "/login", element: <Login /> },
   ]);

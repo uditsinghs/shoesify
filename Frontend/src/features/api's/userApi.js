@@ -65,9 +65,9 @@ export const userApi = createApi({
       query: (userData) => ({
         url: "reset-password",
         method: "POST",
-        body: { userData },
+        body:userData ,
       }),
-  
+
     }),
     addAddress: builder.mutation({
       query: (address) => ({

@@ -1,6 +1,7 @@
 import { Product } from "../models/product.model.js";
 import { Cart } from "../models/cart.model.js";
 import { calculateTotalPrice } from "../utils/totalCartPrice.js";
+
 export const addToCart = async (req, res) => {
   try {
     const { pid } = req.body;
@@ -221,3 +222,5 @@ export const getCart = async (req, res) => {
     });
   }
 };
+
+
