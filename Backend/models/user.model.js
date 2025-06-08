@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    answer: String,
     role: {
       type: String,
       enum: ["customer", "admin"],
@@ -31,6 +30,10 @@ const userSchema = new mongoose.Schema(
       zip: String,
       country: String,
     },
+    isVerified: { type: Boolean, default: false },
+    verifyToken: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     wishlist: [
       {
         type: mongoose.Schema.Types.ObjectId,

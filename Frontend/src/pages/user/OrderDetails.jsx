@@ -2,7 +2,12 @@ import { useParams } from "react-router-dom";
 import { useGetOrderByIdQuery } from "@/features/api's/orderApi";
 import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -25,8 +30,6 @@ const OrderDetails = () => {
   }
 
   const order = data?.order;
-  console.log(order);
-  
 
   if (!order) {
     return (
@@ -37,11 +40,11 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Order Details</h1>
 
-      <Card className="shadow">
-        <CardHeader className="flex flex-col md:flex-row justify-between items-start md:items-center">
+      <Card className="shadow-sm">
+        <CardHeader className="flex flex-col md:flex-row justify-between gap-4 items-start md:items-center">
           <CardTitle className="text-base font-semibold">
             Order ID:{" "}
             <span className="text-muted-foreground">{order.orderId}</span>
@@ -54,34 +57,53 @@ const OrderDetails = () => {
                 ? "secondary"
                 : "outline"
             }
-            className="capitalize"
+            className="capitalize text-sm"
           >
             {order.status}
           </Badge>
-        </CardHeader> 
+        </CardHeader>
 
         <CardContent>
-          <p className="mb-2 font-semibold">Total Amount: ₹{order.amount}</p>
-          <p className="font-medium mb-1">Products:</p>
-          <ul className="pl-4 list-disc space-y-1 text-sm text-gray-700 mb-4">
-            {order.products.map((item, i) => (
-              <div key={i} className="list-none">
-                <li>
-                  {item.product.name} × {item.quantity}
-                </li>
-                <li>
-                  <img src={item?.product?.image.url} alt="p.name" className="w-10" />
-                </li>
-              </div>
-            ))}
-          </ul>
+          <div className="mb-4">
+            <p className="text-lg font-semibold">
+              Total Amount: <span className="text-green-600">₹{order.amount}</span>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Order placed by:{" "}
+              <span className="font-medium">
+                {order?.user?.username || "Unknown User"}
+              </span>
+            </p>
+          </div>
 
-          <p className="text-sm text-muted-foreground">
-            Order placed by:{" "}
-            <span className="font-medium">
-              {order?.user?.username || "Unknown User"}
-            </span>
-          </p>
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold mb-2">Ordered Products</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {order.products.map((item, i) => (
+                <div
+                  key={i}
+                  className="border rounded-lg p-4 flex items-start gap-4 shadow-sm bg-muted/30"
+                >
+                  <img
+                    src={item?.product?.image?.url || "/placeholder.png"}
+                    alt={item.product.name}
+                    className="w-20 h-20 object-cover rounded-md"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-base font-medium">
+                      {item.product.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Quantity: {item.quantity}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Price: ₹{item.product.price * item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

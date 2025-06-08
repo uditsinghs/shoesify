@@ -87,16 +87,6 @@ const UpdateProduct = () => {
   };
 
   const handleSubmit = () => {
-    if (
-      !productData.name ||
-      !productData.description ||
-      !productData.price ||
-      !productData.categoryId
-    ) {
-      toast.error("Please fill all required fields!");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("name", productData.name);
     formData.append("description", productData.description);
@@ -107,7 +97,6 @@ const UpdateProduct = () => {
     if (productData.image) {
       formData.append("image", productData.image);
     }
-
     updateProduct({ inputData: formData, pid });
   };
 
@@ -118,7 +107,7 @@ const UpdateProduct = () => {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Go back to the previous page
+    navigate(-1); 
   };
 
   useEffect(() => {

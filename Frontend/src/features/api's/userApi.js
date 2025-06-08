@@ -62,10 +62,25 @@ export const userApi = createApi({
       },
     }),
     resetPassword: builder.mutation({
-      query: (userData) => ({
-        url: "reset-password",
+      query: ({password, token}) => ({
+        url: `reset-password/${token}`,
         method: "POST",
-        body:userData ,
+        body: {password},
+      }),
+
+    }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: "forgot-password",
+        method: "POST",
+        body: email,
+      }),
+
+    }),
+      verifyEmail: builder.mutation({
+      query: (token) => ({
+        url: `verify/${token}`,
+        method: "POST",
       }),
 
     }),
@@ -129,4 +144,6 @@ export const {
   useChangeRoleMutation,
   useGetAllUsersQuery,
   useResetPasswordMutation,
+  useForgotPasswordMutation,
+  useVerifyEmailMutation
 } = userApi;

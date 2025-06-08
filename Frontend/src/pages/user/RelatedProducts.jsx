@@ -33,7 +33,7 @@ const RelatedProducts = ({ product }) => {
     if (addToCartError && addToCartIsError) {
       toast.error(addToCartError.data.message || "Internal server error");
     }
-  }, [addToCartIsSuccess, addToCartIsError, addToCartError]);
+  }, [addToCartIsSuccess, addToCartIsError, addToCartError, addToCartData]);
   return (
     <Card className="w-full max-w-xl">
       <CardHeader>

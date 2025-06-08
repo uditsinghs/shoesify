@@ -1,6 +1,5 @@
 export const generateToken = (res, user, message, statusCode) => {
   const token = user.generateJWTToken();
-
   res
     .status(statusCode)
     .cookie("token", token, {
@@ -11,9 +10,8 @@ export const generateToken = (res, user, message, statusCode) => {
     .json({
       success: true,
       message,
-      token,
       user: {
-        id: user._id,
+        _id: user._id,
         username: user.username,
         email: user.email,
         role: user.role,

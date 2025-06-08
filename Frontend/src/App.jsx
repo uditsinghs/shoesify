@@ -25,6 +25,8 @@ import { Loader } from "lucide-react";
 import Checkout from "./pages/user/Checkout";
 import OrderSuccess from "./components/OrderSuccess";
 import OrderDetails from "./pages/user/OrderDetails";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="w-full h-screen flex justify-center items-center">
         <Loader className="w-20 h-20 animate-spin mr-4" />
       </div>
     );
@@ -59,11 +61,11 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
-          {
+        {
           path: "checkout",
           element: (
             <ProtectedRoute isAllowed={isAuthenticated}>
-              <Checkout/>
+              <Checkout />
             </ProtectedRoute>
           ),
         },
@@ -99,7 +101,7 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
-          {
+        {
           path: "order/:id",
           element: (
             <ProtectedRoute isAllowed={isAuthenticated}>
@@ -132,8 +134,10 @@ const App = () => {
       ],
     },
     { path: "/signup", element: <Signup /> },
-    {path:"/order-success",element:<OrderSuccess />},
-    { path: "/reset", element: <ResetPassword /> },
+    { path: "/forgot-password", element: <ForgotPassword /> },
+    { path: "/order-success", element: <OrderSuccess /> },
+    { path: "/reset-password/:token", element: <ResetPassword /> },
+    { path: "/verify/:token", element: <VerifyEmail /> },
     { path: "/login", element: <Login /> },
   ]);
 

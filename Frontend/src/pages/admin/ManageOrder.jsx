@@ -18,7 +18,7 @@ import { toast } from "sonner";
 const statusOptions = ["pending", "shipped", "delivered"];
 
 const ManageOrder = () => {
-  const { data, isLoading, isError } = useGetAllOrdersQuery();
+  const { data, isLoading, isError,refetch } = useGetAllOrdersQuery();
   const [updateStatus] = useUpdateOrderStatusMutation();
   const [deleteOrder] = useDeleteOrderMutation();
 
@@ -27,16 +27,17 @@ const ManageOrder = () => {
       await updateStatus({ orderId, status: newStatus }).unwrap();
       toast.success(`Status updated to ${newStatus}`);
     } catch (err) {
-      toast.error("Failed to update status");
+      toast.error(err?.message || "Failed to update status");
     }
   };
 
   const handleDelete = async (orderId) => {
     try {
       await deleteOrder(orderId).unwrap();
+      refetch()
       toast.success("Order deleted successfully");
     } catch (err) {
-      toast.error("Failed to delete order");
+      toast.error(err?.message ||"Failed to delete order");
     }
   };
 

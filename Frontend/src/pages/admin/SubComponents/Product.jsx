@@ -7,7 +7,6 @@ import {
   CardContent,
 
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
 const Product = ({ product }) => {
@@ -17,7 +16,6 @@ const Product = ({ product }) => {
     price,
     quantity,
     image,
-    shipping,
   } = product;
 
   return (
@@ -26,9 +24,6 @@ const Product = ({ product }) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold">{name}</CardTitle>
-          <Badge variant={shipping ? "default" : "outline"}  className="p-1">
-            {shipping ? "Shipping Available" : "No Shipping"}
-          </Badge>
         </div>
       </CardHeader>
 

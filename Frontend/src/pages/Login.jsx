@@ -93,6 +93,9 @@ const Login = () => {
               "  Login"
             )}
           </Button>
+          <button className="text-white underline">
+            <Link to={"/forgot-password"}>Forgot Password</Link>
+          </button>
 
           <p className="text-center text-sm text-zinc-400">
             Don&lsquo;t have an account?{" "}

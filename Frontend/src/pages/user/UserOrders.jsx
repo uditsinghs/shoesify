@@ -68,7 +68,7 @@ const UserOrders = () => {
                   ? "secondary"
                   : "outline"
               }
-              className="capitalize"
+              className="capitalize w-14"
             >
               {order.status}
             </Badge>

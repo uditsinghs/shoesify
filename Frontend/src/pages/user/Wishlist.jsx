@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Loader, Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useAddToCartMutation } from "@/features/api's/cartApi";
 
 const Wishlist = () => {
   const { data, isLoading, isError, error } = useGetWishlistQuery();
@@ -23,9 +24,21 @@ const Wishlist = () => {
       isSuccess: removeIsSuccess,
     },
   ] = useRemoveFromWishlistMutation();
+  const [
+    addToCart,
+    {
+      data: addToCartData,
+      isError: addToCartIsError,
+      error: addToCartError,
+      isLoading: addToCartIsLoading,
+      isSuccess: addToCartIsSuccess,
+    },
+  ] = useAddToCartMutation();
 
   const { wishlist } = data || [];
-  const handleAddToCart = () => {};
+  const handleAddToCart = (pid) => {
+    addToCart(pid);
+  };
   const handleRemoveFromWishlist = (pid) => {
     removeFromWishlist(pid);
   };
@@ -37,7 +50,17 @@ const Wishlist = () => {
     if (removeError && removeIsError) {
       toast.error(removeError.data.message || "Internal server error");
     }
-  }, [removeError, removeIsError, removeIsSuccess]);
+  }, [ removeError, removeIsError, removeIsSuccess]);
+
+  useEffect(() => {
+    if (addToCartData && addToCartIsSuccess) {
+      toast.success(addToCartData?.message || "Added to cart");
+    }
+    if (addToCartIsError && addToCartError) {
+      toast.error(addToCartError?.data?.message || "Internal server error");
+    }
+  }, [addToCartData, addToCartError, addToCartIsError, addToCartIsSuccess]);
+
   if (isLoading)
     return (
       <>
@@ -47,7 +70,7 @@ const Wishlist = () => {
   if (isError && error)
     return (
       <>
-        <p>{error.data.message}</p>
+        <p>{error?.data?.message}</p>
       </>
     );
   return (
@@ -99,7 +122,7 @@ const Wishlist = () => {
                   </div>
                   <div className="flex justify-between my-2">
                     <Button onClick={() => handleAddToCart(product._id)}>
-                      {isLoading ? (
+                      {addToCartIsLoading ? (
                         <Loader2 className="mr-2 w-4 h-4 animate-spin" />
                       ) : (
                         "Add to Cart"

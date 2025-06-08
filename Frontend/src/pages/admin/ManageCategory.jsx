@@ -48,8 +48,6 @@ const ManageCategory = () => {
   const {
     data: categoryData,
     isLoading: categoryIsLoading,
-    isError: categoryIserror,
-    error: CategoryError,
   } = useGetAllCategoryQuery();
 
   const { categories } = categoryData || {};
@@ -100,12 +98,7 @@ const ManageCategory = () => {
         <p>Loading...</p>
       </>
     );
-  if (categoryIserror && CategoryError)
-    return (
-      <>
-        <p>{CategoryError.message}</p>
-      </>
-    );
+
 
   return (
     <div className="p-6 md:p-10 flex flex-col max-w-4xl mx-auto gap-6">

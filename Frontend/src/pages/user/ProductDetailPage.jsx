@@ -23,7 +23,7 @@ const ProductDetailPage = () => {
 
   // Fetch related products using cid
   const { data: categoryData } = useGetRelatedProductQuery(pid);
-  console.log("related_Product", categoryData);
+
   // Add to cart mutation
   const [
     addToCart,
@@ -37,6 +37,8 @@ const ProductDetailPage = () => {
   ] = useAddToCartMutation();
 
   const handleAddToCart = () => {
+    console.log("HEllo FROM ADD TO CART");
+    
     addToCart(pid);
   };
 
@@ -104,11 +106,11 @@ const ProductDetailPage = () => {
 
           {/* Add to Cart Button */}
           <button
-            onClick={()=>isAuthenticated ? handleAddToCart : navigate("/login")}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200"
+            onClick={()=>isAuthenticated ? handleAddToCart(product?._id) : navigate("/login")}
+            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-200"
           >
             {addToCartIsLoading ? (
-              <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+              <Loader2 className="mr-10 w-6 h-6 animate-spin" />
             ) : (
               "    Add to Cart"
             )}
@@ -122,7 +124,7 @@ const ProductDetailPage = () => {
         </div>
         <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-3 mt-4">
 
-          {categoryData?.data?.length===0 ? (<p className="text-center font-bold text-2xl">No similiar product available</p>) : categoryData?.data?.map((product) => (
+          {categoryData?.data?.length===0 ? (<p className="text-center font-bold text-xl text-gray-300">No similiar product available</p>) : categoryData?.data?.map((product) => (
             <RelatedProducts key={product._id} product={product} />
           ))}
         </div>

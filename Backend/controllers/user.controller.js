@@ -1,10 +1,12 @@
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
 import { Cart } from "../models/cart.model.js";
-
+import { sendEmail } from "../utils/sendEmail.js";
+import crypto from 'crypto'
+import bcrypt from "bcryptjs";
 export const signup = async (req, res) => {
   try {
-    const { username, email, password, answer } = req.body;
+    const { username, email, password } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({
         message: "Please provide all fields.",
@@ -20,15 +22,26 @@ export const signup = async (req, res) => {
       });
     }
 
+
+    const verifyToken = crypto.randomBytes(32).toString("hex");
+
+
     const newUser = await User.create({
       username,
       email,
       password,
-      answer,
+      verifyToken
     });
 
+    const verifyURL = `http://localhost:5173/verify/${verifyToken}`;
+
+    await sendEmail(email, "Verify your email", `
+        <h2>Hello ${username}</h2>
+      <p>Click the link to verify your email:</p>
+      <a href="${verifyURL}">${verifyURL}</a>`)
+
     res.status(201).json({
-      message: "Registered successfully",
+      message: "Registration successful, please verify your email",
       success: true,
       user: newUser,
     });
@@ -40,6 +53,29 @@ export const signup = async (req, res) => {
     });
   }
 };
+
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const user = await User.findOne({ verifyToken: token });
+
+    if (!user) return res.status(400).json({ message: "Invalid token" });
+
+    user.isVerified = true;
+    user.verifyToken = undefined;
+    await user.save();
+    res.json({ message: "Email verified successfully" });
+
+
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "Internal server error",
+      success: false,
+      error,
+    });
+  }
+}
+
 
 export const login = async (req, res) => {
   try {
@@ -70,6 +106,15 @@ export const login = async (req, res) => {
         message: "Invalid email or password.",
       });
     }
+
+
+    if (!user.isVerified) {
+      return res.status(401).json({
+        success: false,
+        message: "Please verify email,we sent a email just click on it to verify",
+      });
+    }
+
     generateToken(res, user, `Welcome back, ${user.username}!`, 200);
   } catch (error) {
     console.error(error);
@@ -103,51 +148,29 @@ export const logout = async (req, res) => {
   }
 };
 
-export const resetPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
   try {
-    const { password, confirmPassword, answer } = req.body;
-    
-    const userId = req.user._id;
 
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Please not found", success: false })
+    }
 
-    
-    
+    const user = await User.findOne({ email });
+    if (!user || !user.isVerified) return res.status(400).json({ message: "User not found or not verified" });
 
-    const user = await User.findById(userId).select("+password");
-    if (!user) {
-      return res.status(404).json({
-        message: "user not found",
-        success: false,
-      });
-    }
-    if (!answer) {
-      return res.status(404).json({
-        message: "please provide answer of question.",
-        success: false,
-      });
-    }
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        message: "confirm password is not match.",
-        success: false,
-      });
-    }
-    // check if the answer that store in db is matched by input answer.
-    if (user.answer !== answer) {
-      return res.status(400).json({
-        message: "input right answer.",
-        success: false,
-      });
-    }
-    // now change the password;
-    if (user.password) {
-      user.password = password;
-      await user.save();
-    }
-    res.status(200).json({
-      message: "Password reset successfully.",
-      success: true,
-    });
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000;
+    await user.save();
+
+    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
+    await sendEmail(email, "Reset your password", `
+      <p>Click the link to reset your password:</p>
+      <a href="${resetURL}">${resetURL}</a>
+    `);
+
+    res.json({ message: "Password reset email sent" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -157,6 +180,39 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
+
+export const resetPassword = async (req, res) => {
+
+  const { token } = req.params;
+  console.log("token", token);
+
+  const { password } = req.body;
+  try {
+
+
+    const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+    console.log("user", user);
+
+    if (!user) return res.status(400).json({ message: "Invalid or expired token" });
+
+
+    const hashedPassword = bcrypt.hash(password, 10)
+
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+      error: error.message,
+    });
+  }
+}
+
 
 export const addAddress = async (req, res) => {
   try {
@@ -389,7 +445,7 @@ export const updatedUserRole = async (req, res) => {
     res.status(200).json({
       message: "user role changed.",
       success: true,
-      });
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({

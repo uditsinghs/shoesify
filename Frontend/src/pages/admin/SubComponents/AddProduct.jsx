@@ -48,7 +48,6 @@ const AddProduct = ({ open, setOpen }) => {
       isError: addIsError,
     },
   ] = useAddProductMutation();
-  
 
   const handleChange = (key, value) => {
     setProductData((prev) => ({
@@ -72,7 +71,7 @@ const AddProduct = ({ open, setOpen }) => {
       alert("Please fill all required fields!");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("name", productData.name);
     formData.append("description", productData.description);
@@ -83,13 +82,22 @@ const AddProduct = ({ open, setOpen }) => {
     if (productData.image) {
       formData.append("image", productData.image); // Attach the file
     }
-  
+
     addProduct(formData);
   };
-  
+
   useEffect(() => {
     if (addData && addIssuccess) {
       toast.success(addData.message || "Product added Successfully.");
+      setProductData({
+        name: "",
+        description: "",
+        price: "",
+        categoryId: "",
+        quantity: "",
+        image: null,
+        shipping: false,
+      });
       setOpen(false);
     }
     if (addIsError && addError) {
