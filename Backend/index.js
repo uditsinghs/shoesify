@@ -24,7 +24,7 @@ app.use(
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://shoesify-1.onrender.com",
   methods: ["POST", "PUT", "GET", "DELETE"],
   credentials: true, // Allow cookies from this origin
 };
