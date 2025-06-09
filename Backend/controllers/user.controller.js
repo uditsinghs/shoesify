@@ -33,7 +33,7 @@ export const signup = async (req, res) => {
       verifyToken
     });
 
-    const verifyURL = `http://localhost:5173/verify/${verifyToken}`;
+    const verifyURL = `https://shoesify-1.onrender.com/verify/${verifyToken}`;
 
     await sendEmail(email, "Verify your email", `
         <h2>Hello ${username}</h2>
@@ -165,7 +165,7 @@ export const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
-    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetURL = `https://shoesify-1.onrender.com/reset-password/${resetToken}`;
     await sendEmail(email, "Reset your password", `
       <p>Click the link to reset your password:</p>
       <a href="${resetURL}">${resetURL}</a>
