@@ -51,7 +51,7 @@ console.log(user);
       order_id: data.order.id,
       handler: async (response) => {
         await axios.post(
-          "http://localhost:8080/api/v1/order/payment/verify",
+          "https://shoesify-backend.onrender.com/api/v1/order/payment/verify",
           {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
