@@ -5,7 +5,7 @@ export const generateToken = (res, user, message, statusCode) => {
      .cookie("token", token, {
       httpOnly: true,             
       secure: process.env.NODE_ENV === "production", 
-      sameSite: "Strict",        
+      sameSite: "none",        
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .json({
