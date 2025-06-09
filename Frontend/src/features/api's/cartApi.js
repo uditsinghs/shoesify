@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const BASE_URL = "http://localhost:8080/api/v1/cart/";
+const BASE_URL = "https://shoesify-backend.onrender.com/api/v1/cart/";
 
 export const cartApi = createApi({
   reducerPath: "cartApi",
