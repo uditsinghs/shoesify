@@ -206,9 +206,9 @@ const ManageAddress = ({redirectTo="/profile"}) => {
             {isLoading ? (
               <Loader2 className="mr-2 w-4 h-4 animate-spin" />
             ) : user?.address ? (
-              "Update Address"
+              "Update "
             ) : (
-              "Add Address"
+              "Add "
             )}
           </Button>
           {user?.address && (
@@ -220,7 +220,7 @@ const ManageAddress = ({redirectTo="/profile"}) => {
               {deleteLoading ? (
                 <Loader2 className="mr-2 w-4 h-4 animate-spin" />
               ) : (
-                "Delete Address"
+                "Delete "
               )}
             </Button>
           )}
