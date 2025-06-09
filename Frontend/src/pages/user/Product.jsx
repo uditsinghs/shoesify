@@ -54,9 +54,7 @@ const Product = ({ product }) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold">{name}</CardTitle>
-          <Badge variant={shipping ? "default" : "outline"} className="p-2">
-            {shipping ? "Shipping Available" : "No Shipping"}
-          </Badge>
+       
         </div>
       </CardHeader>
 
