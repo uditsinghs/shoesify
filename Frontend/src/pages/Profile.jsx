@@ -43,20 +43,20 @@ const Profile = () => {
           </CardHeader>
           <CardContent className="flex items-center justify-between gap-4">
             {/* Address Information */}
-            <div className="grid grid-cols-3">
-              <p className="text-sm font-bold uppercase">
+            <div className="grid md:grid-cols-3">
+              <p className="text-sm font-bold">
                 City: {user?.address?.city || "John doe"}
               </p>
-              <p className="text-sm font-bold uppercase">
+              <p className="text-sm font-bold">
                 Street: {user?.address?.street || "johndoe@example.com"}
               </p>
-              <p className="text-sm font-bold uppercase">
+              <p className="text-sm font-bold ">
                 State: {user?.address?.state || "johndoe@example.com"}
               </p>
-              <p className="text-sm font-bold uppercase">
+              <p className="text-sm font-bold ">
                 Zip-code : {user?.address?.zip || "johndoe@example.com"}
               </p>
-              <p className="text-sm font-bold uppercase">
+              <p className="text-sm font-bold ">
                 Country: {user?.address?.country || "johndoe@example.com"}
               </p>
             </div>
