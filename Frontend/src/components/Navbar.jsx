@@ -103,7 +103,9 @@ const Navbar = () => {
       <div className="flex md:hidden items-center justify-between px-4 h-[80px] bg-gray-700">
         <div>
          <div>
+          <Link to="/">
           <h1 className="uppercase font-bold">Shoesify</h1>
+          </Link>
         </div>
         </div>
         <Button
