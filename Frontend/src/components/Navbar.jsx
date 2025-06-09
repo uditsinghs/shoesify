@@ -45,11 +45,13 @@ const Navbar = () => {
       <div className="hidden md:flex justify-between items-center px-6 h-[100px]">
         <div>
           <Link to="/">
-            <img
-              src="https://www.shutterstock.com/image-vector/transparent-shoes-icon-png-vector-260nw-1952341351.jpg"
-              alt="logo"
-              className="w-40 h-40 object-contain"
-            />
+             <div>
+          <Link to="/">
+            <div>
+              <h1 className="uppercase font-extrabold text-2xl">Shoesify</h1>
+            </div>
+          </Link>
+        </div>
           </Link>
         </div>
         <div className="flex gap-6 items-center">
@@ -100,13 +102,9 @@ const Navbar = () => {
       {/* Mobile Navbar */}
       <div className="flex md:hidden items-center justify-between px-4 h-[80px] bg-gray-700">
         <div>
-          <Link to="/">
-            <img
-              src="https://www.shutterstock.com/image-vector/transparent-shoes-icon-png-vector-260nw-1952341351.jpg"
-              alt="logo"
-              className="w-20 h-20 object-contain"
-            />
-          </Link>
+         <div>
+          <h1 className="uppercase font-bold">Shoesify</h1>
+        </div>
         </div>
         <Button
           variant="ghost"
