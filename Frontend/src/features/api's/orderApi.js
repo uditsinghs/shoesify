@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // make sure you use `/react`
 
-const BASE_URL = "http://localhost:8080/api/v1/order/";
+const BASE_URL = "https://shoesify-backend.onrender.com/api/v1/order/";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
