@@ -121,7 +121,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Content */}
-          {mobileMenuOpen && user.role === "admin" && (
+          {mobileMenuOpen && user?.role === "admin" && (
         <div className="md:hidden bg-gray-800 text-white p-4 space-y-4">
           <Button onClick={handleLogout} className="w-full">
             {isLoading ? (
