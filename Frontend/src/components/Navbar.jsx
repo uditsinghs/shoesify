@@ -46,7 +46,7 @@ const Navbar = () => {
         <div>
           <Link to="/">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMHsjvFmSqCubHLdFgu2isqW6heMGZOagw&s"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMHsjvFmSqCubHLdFgu2isqW6heMGZOagw&"
               alt="logo"
               className="w-40 h-40 object-contain"
             />
@@ -102,7 +102,7 @@ const Navbar = () => {
         <div>
           <Link to="/">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMHsjvFmSqCubHLdFgu2isqW6heMGZOagw&s"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMaMHsjvFmSqCubHLdFgu2isqW6heMGZOagw&"
               alt="logo"
               className="w-20 h-20 object-contain"
             />
