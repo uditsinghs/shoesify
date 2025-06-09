@@ -132,7 +132,7 @@ const Navbar = () => {
                 Orders
               </Link>
               <Link to="/cart" className="block relative hover:text-gray-300">
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                <span className="absolute -top-2 right-96 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
                   {cart?.length}
                 </span>
                 <ShoppingCartIcon className="inline ml-2" />
@@ -150,9 +150,20 @@ const Navbar = () => {
             </>
           )}
           {!isAuthenticated && (
-            <Link to="/login" className="block hover:text-gray-300">
-              Login
-            </Link>
+            <div className="flex gap-3 items-center ">
+              <Link to="/login" className="block hover:text-gray-300">
+                Login
+              </Link>
+              <Link to="/cart" className="block relative hover:text-gray-300">
+                <span className="absolute -top-2 right-96 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                  {cart?.length}
+                </span>
+                <ShoppingCartIcon className="inline ml-2" />
+              </Link>
+              <Link to="/wishlist" className="block hover:text-gray-300">
+                <Heart className="inline" />
+              </Link>
+            </div>
           )}
         </div>
       )}
