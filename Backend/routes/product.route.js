@@ -7,6 +7,7 @@ import {
   deleteProduct,
   getAllProduct,
   getAllWiseListProduct,
+  getPaginatedProducts,
   getRelatedProduct,
   getSingleProduct,
   removeFromWishlist,
@@ -41,4 +42,5 @@ router.get("/products/:pid/related", getRelatedProduct);
 router.post("/add-wishlist/:pid", isAuthenticated, addWishlist);
 router.post("/delete-wishlist/:pid", isAuthenticated, removeFromWishlist);
 router.get("/get-wishlist", isAuthenticated, getAllWiseListProduct);
+router.get('/products',getPaginatedProducts)
 export default router;

@@ -66,6 +66,13 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    getPaginatedProducts: builder.query({
+      query: ({ page = 1, search = "" }) => ({
+        url: `products?page=${page}&search=${search}`,
+        method: "GET",
+      }),
+      providesTags: ["Products"],
+    }),
     removeFromWishlist: builder.mutation({
       query: (pid) => ({
         url: `delete-wishlist/${pid}`,
@@ -85,5 +92,6 @@ export const {
   useAddToWishistMutation,
   useGetWishlistQuery,
   useRemoveFromWishlistMutation,
-  useGetRelatedProductQuery
+  useGetRelatedProductQuery,
+  useGetPaginatedProductsQuery
 } = productApi;

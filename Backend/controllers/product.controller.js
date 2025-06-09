@@ -107,6 +107,41 @@ export const getAllProduct = async (req, res) => {
   }
 };
 
+export const getPaginatedProducts = async (req, res) => {
+  try {
+    const search = req.query.search || "";
+
+    const query = {
+      name: { $regex: search, $options: "i" },
+    };
+    const page = parseInt(req.query.page) || 1;
+    const limit = 3;
+    const skip = (page - 1) * limit;
+
+    const products = await Product.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Product.countDocuments(query);
+
+    const hasMore = page * limit < total;
+
+    res.status(200).json({
+      success: true,
+      products,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      hasMore,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching products.",
+    });
+  }
+};
+
 export const getSingleProduct = async (req, res) => {
   try {
     const { pid } = req.params;
@@ -267,18 +302,6 @@ export const getRelatedProduct = async (req, res) => {
   }
 };
 
-const sortAndFilterProducts = async (req, res) => {
-  try {
-        
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Internal server error",
-      error: error.message,
-      success: false,
-    });
-  }
-};
 
 // wiselist product
 export const addWishlist = async (req, res) => {

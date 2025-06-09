@@ -1,4 +1,4 @@
-import Carousel from "@/components/Carousal";
+
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import Products from "./Products";
@@ -39,11 +39,6 @@ const Hero = () => {
             className="w-full text-center p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-500"
             aria-label="Search Products"
           />
-        </div>
-
-        {/* Carousel */}
-        <div className="w-full">
-          <Carousel />
         </div>
 
         {/* Products Section */}
