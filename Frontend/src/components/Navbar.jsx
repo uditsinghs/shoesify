@@ -102,7 +102,7 @@ const Navbar = () => {
         <div>
           <Link to="/">
             <img
-              src="../../public/images/skechers-logo.png"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd_-G47cj-jPs7HiZdGQzyrlj-1lV5OSFBNg&s"
               alt="logo"
               className="w-20 h-20 object-contain"
             />
