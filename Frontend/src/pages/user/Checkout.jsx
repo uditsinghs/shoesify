@@ -34,7 +34,7 @@ console.log(user);
 
   const handleCheckout = async () => {
     const { data } = await axios.post(
-      "http://localhost:8080/api/v1/order/create-order",
+      "https://shoesify-backend.onrender.com/api/v1/order/create-order",
       {
         amount,
       },
