@@ -22,7 +22,7 @@ const Products = ({ searchTerm }) => {
     if (data?.products) {
       setAllProducts((prev) => (page === 1 ? data.products : [...prev, ...data.products]));
     }
-  }, [data, page]);
+  }, [data]);
 
   if (isLoading)
     return (
